@@ -1,8 +1,10 @@
  const mongoose = require('mongoose');
- const Book = mongoose.model('books');
+ const Book = require('../models/Book');
+ var express = require('express');
+var router = express.Router();
  
- module.export = app => {
-     app.post('/api/books', (req,res) => {
+
+     router.post('/api/books', (req,res) => {
         const {title,author, isbn, year, description, imageUrl, category} = req.body;
 
         const book = new Book({
@@ -18,4 +20,5 @@
         book.save();
         res.send(book);
      });
- };
+
+     module.exports = router;
