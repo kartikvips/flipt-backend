@@ -7,6 +7,15 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var mongoose = require('mongoose');
+
+mongoose.Promise = require('bluebird');
+mongoose.connect('mongodb://localhost/flipt', {
+    promiseLibrary: require('bluebird')
+  })
+  .then(() => console.log('connection succesful'))
+  .catch((err) => console.error(err));
+
 var app = express();
 
 // view engine setup
