@@ -25,6 +25,7 @@ passport.use(new GoogleStrategy(
         proxy: true
     },
     (accessToken, refreshToken, profile, done) => {
+        // console.log(profile);
         // new User({googleId: profile.id}).save().then(user => done(null, user));
         User.findOne({ googleId: profile.id })
             .then((existingUser) => { 
@@ -32,7 +33,11 @@ passport.use(new GoogleStrategy(
                     
                     done(null, existingUser);
                 } else {
-                    new User({ googleId: profile.id })
+                    new User(
+                        { 
+                            googleId: profile.id
+
+                        })
                         .save()
                         .then(user => done(null, user));
                 }
