@@ -25,9 +25,6 @@ passport.use(new GoogleStrategy(
         proxy: true
     },
     (accessToken, refreshToken, profile, done) => {
-        console.log(accessToken);
-        console.log(refreshToken);
-        console.log(profile);
         // new User({googleId: profile.id}).save().then(user => done(null, user));
         User.findOne({ googleId: profile.id })
             .then((existingUser) => { 
