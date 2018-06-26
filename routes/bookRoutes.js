@@ -28,19 +28,19 @@ var router = express.Router();
 
      
 
-     router.patch('/:id', (req,res, next) => {
-        Book.findByIdAndUpdate({_id:req.params.id},req.body).then((book) => {
-            //in this case, book is the object that you sent in
+     router.patch('/:id', (req,res) => {
+        Book.findByIdAndUpdate({_id:req.params.id},req.body).then(() => {
+            Book.findOne({_id: req.params.id}).then(book => {
             return res.status(201).send(book);
-        }).catch(err => {
+        });
+    }).catch(err => {
                 return res.status(400).send({error:err});
         });
 
      });
 
-     router.delete('/:id', (req,res, next) => {
-        Book.findByIdAndUpdate({_id:req.params.id},req.body).then((book) => {
-            //in this case, book is the object that you sent in
+     router.delete('/:id', (req,res) => {
+        Book.findByIdAndRemove({_id:req.params.id}).then(book => {
             return res.status(201).send(book);
         }).catch(err => {
                 return res.status(400).send({error:err});
