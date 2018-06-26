@@ -1,6 +1,7 @@
  const mongoose = require('mongoose');
  const Book = require('../models/Book');
  var express = require('express');
+ const googleBooks = require('google-books-search');
 var router = express.Router();
  
 
@@ -23,6 +24,16 @@ var router = express.Router();
             res.status(201).send(book);
         }).catch(err => {
             return res.status(401).send({error:err});
+        });
+     });
+
+     router.get('/google/:isbn',(req,res) => {
+        googleBooks.search(req.params.isbn,(error, book)=> {
+            if (!error){
+                res.status(201).send(book);
+            }else {
+                res.status(400).send(error);
+            }
         });
      });
 
