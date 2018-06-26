@@ -5,11 +5,13 @@ const passport = require('passport');
 const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
+const booksRouter = require('./routes/bookRoutes');
+const bodyParser = require('body-parser');
 
 mongoose.connect(keys.mongoURI);
 
 const app = express();
-
+app.use(bodyParser.json());
 app.use(
     cookieSession({
         maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -20,6 +22,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/books', booksRouter);
 
 
 require('./routes/authRoutes')(app);
