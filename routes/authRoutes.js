@@ -14,7 +14,7 @@ module.exports = (app) => {
             failureRedirect: '/auth/google'
         }),
         (req, res) =>
-        res.redirect('OAuthLogin://login?user=' + JSON.stringify(req.user))
+        res.redirect('flipt://login?user=' + JSON.stringify(req.user))
     );
 
     // app.get(
