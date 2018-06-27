@@ -42,9 +42,9 @@ passport.use(new GoogleStrategy({
         proxy: true
     },
     (accessToken, refreshToken, profile, done) => {
-        // console.log(profile);
+     
         // new User({googleId: profile.id}).save().then(user => done(null, user));
-        console.log(profile);
+      
         User.findOne({
                 profileId: profile.id
             })
@@ -84,7 +84,7 @@ passport.use(new FacebookStrategy({
                 }
             });
 
-        // console.log(profile._json);
+       
         // done(null, transformFacebookProfile(profile._json));
     }
 ));
