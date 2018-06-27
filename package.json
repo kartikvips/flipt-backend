@@ -9,7 +9,11 @@
   },
   "scripts": {
      "test": "echo \"Error: no test specified\" && exit 1",
-     "start": "node_modules/nodemon/bin/nodemon.js -- node_modules/babel-cli/bin/babel-node.js index.js"
+     "start": "node index.js",
+     "server": "nodemon index.js",
+     "client": "npm run start --prefix client",
+     "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run webhook\"",
+     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
      },
   "author": "",
   "license": "ISC",
