@@ -30,7 +30,16 @@ var router = express.Router();
      router.get('/google/:isbn',(req,res) => {
         googleBooks.search(req.params.isbn,(error, book)=> {
             if (!error){
-                res.status(201).send(book);
+
+                res.status(201).send({
+                    title: book[0].title,
+                    author: book[0].authors,
+                    isbn: req.params.isbn,
+                    year: book[0].publishedDate.slice(0,4),
+                    description: book[0].description,
+                    imageUrl: book[0].thumbnail,
+                    category: book[0].categories                
+                });
             }else {
                 res.status(400).send(error);
             }
