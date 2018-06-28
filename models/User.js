@@ -1,8 +1,14 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const {
+    Schema
+} = mongoose;
 
 const userSchema = new Schema({
-    googleId: String,
+    profileId: String,
+    name: String,
+    firstname: String,
+    lastname: String,
+    avatar: String
 
 });
 
