@@ -2,8 +2,9 @@
  const Book = require('../models/Book');
  var express = require('express');
  const googleBooks = require('google-books-search');
-var router = express.Router();
- 
+let router = express.Router();
+let NodeGeocoder = require('node-geocoder'); 
+let compare = require('compare-lat-lon');
 
      router.post('/new', (req,res) => {
         Book.create(req.body).then((book) => {
@@ -28,9 +29,26 @@ var router = express.Router();
      });
 
      router.get('/google/:isbn',(req,res) => {
-        googleBooks.search(req.params.isbn,(error, book)=> {
-            if (!error){
 
+        // let options = {
+        //     provider: 'google',
+           
+       
+        //     httpAdapter: 'https', 
+        //     apiKey: 'AIzaSyAYqFkmTgwW-lB6aw474LFeDDwt62q7t2A', 
+        //     formatter: null    
+        //   };
+        //   let geocoder = NodeGeocoder(options);
+        //   console.log(geocoder);
+        //   geocoder.geocode('29 champs elysée paris').then((result) => {
+        //     console.log(result);
+        //   });
+
+        googleBooks.search(req.params.isbn,(error, book)=> {
+            if (book.length < 1){
+                res.send('nothing');
+            }
+            else if (!error){
                 res.status(201).send({
                     title: book[0].title,
                     author: book[0].authors,

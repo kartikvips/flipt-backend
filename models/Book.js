@@ -30,6 +30,12 @@ const bookSchema = new Schema({
     },
     category:{
         type: String
+    },
+    lat:{
+        type: Number
+    },
+    long:{
+        type: Number
     }
 });
 
