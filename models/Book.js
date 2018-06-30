@@ -30,6 +30,15 @@ const bookSchema = new Schema({
     },
     category:{
         type: String
+    },
+    ownerId:{
+        type: String
+    },
+    latitude:{
+        type: String
+    },
+    longitude:{
+        type: String
     }
 });
 

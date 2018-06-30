@@ -6,11 +6,15 @@ const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
 const booksRouter = require('./routes/bookRoutes');
+const chatRouter = require('./routes/chatRoutes');
 const bodyParser = require('body-parser');
+
+
 
 mongoose.connect(keys.mongoURI);
 
 const app = express();
+app.use(bodyParser.json());
 
 app.use(
     cookieSession({
@@ -24,6 +28,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/books', booksRouter);
+app.use('/message', chatRouter);
 require('./routes/authRoutes')(app);
 
 
