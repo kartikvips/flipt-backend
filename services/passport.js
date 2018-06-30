@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 
 const keys = require('../config/keys');
 
-const User = mongoose.model('users');
+// const User = mongoose.model('users');
+const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -30,8 +31,8 @@ const transformFacebookProfile = (profile) => ({
 const transformGoogleProfile = (profile) => ({
     profileId: profile.id,
     name: profile.displayName,
-    firstname: profile.name.familyName,
-    lastname: profile.name.givenName,
+    firstname: profile.name.givenName,
+    lastname: profile.name.familyName,
     avatar: profile.image.url,
 });
 
@@ -44,7 +45,7 @@ passport.use(new GoogleStrategy({
     (accessToken, refreshToken, profile, done) => {
      
         // new User({googleId: profile.id}).save().then(user => done(null, user));
-      
+        // console.log(profile);
         User.findOne({
                 profileId: profile.id
             })
@@ -70,7 +71,7 @@ passport.use(new FacebookStrategy({
         proxy: true
     },
     (accessToken, refreshToken, profile, done) => {
-
+        console.log(profile);
         User.findOne({
                 profileId: profile.id
             })
