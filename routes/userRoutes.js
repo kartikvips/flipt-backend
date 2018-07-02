@@ -11,8 +11,13 @@ router.post('/new', (req, res) => {
 })
 
 router.get('/:id/chats', (req, res) => {
-  User.findById({ _id: req.params.id })
-    .then(user => res.status(201).send(user.chatRoom))
+  console.log("got here!")
+  console.log("the req id is ", req.params.id)
+  User.findOne({ _id: req.params.id })
+    .then(user => {
+      console.log("the user is", user)
+      return res.status(200).json(user)
+    })
     .catch(err => res.status(401).send({ error: err }))
 })
 
