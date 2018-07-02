@@ -1,6 +1,21 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+
+// create geolocation Schema
+// const geoSchema = new Schema({
+//     type:{
+//         default: "Point",
+//         type: String
+//     },
+//     coordinates: {
+//         type: [Number],
+//         index: "2dsphere "
+//     }
+// });
+
+
+
 const userSchema = new Schema({
     profileId: String,
     name: String,
@@ -23,11 +38,8 @@ const userSchema = new Schema({
         type: Array,
         "default": []
     },
-    latitude: {
-        type: String
-    },
-    longitude: {
-        type: String
+    coordinates: {
+        type: [Number]
     }
 });
 
