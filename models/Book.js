@@ -1,6 +1,18 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
+// const geoSchema = new Schema({
+//     type: {
+//         default: "Point",
+//         type: String
+//     },
+//     coordinates: {
+//         type: [Number],
+//         index: "2dsphere "
+//     }
+// });
+
+
 const bookSchema = new Schema({
     title:{
         type: String,
@@ -34,12 +46,10 @@ const bookSchema = new Schema({
     ownerId:{
         type: String
     },
-    latitude:{
-        type: String
-    },
-    longitude:{
-        type: String
+    coordinates: {
+        type: [Number]
     }
+
 });
 
 bookSchema.index({isbn: 1});
