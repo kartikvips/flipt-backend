@@ -11,110 +11,50 @@ router.get('/:id/all', (req, res) => {
         .catch(err => res.status(401).send({ error: err }))
 })
 
- router.post('/new', (req, res) => {
+router.get('/all', (req, res) => {
+    Chat.find({})
+        .then(chats => res.status(201).send(chats))
+})
+
+router.post('/new', (req, res) => {
     console.log(req.body)
-     Chat.create(req.body).then((chat) => {
-         User.findByIdAndUpdate(req.body.userAId, {
-             $push: {
-                 chatRoom: chat
-             }
-         }).then(user => console.log(user)).catch(err => console.log(err));
+    Chat.create(req.body).then((chat) => {
+        User.findByIdAndUpdate(req.body.userAId, { $push: { chatRoom: chat } })
+            .then(user => console.log(user)).catch(err => console.log(err));
 
-         User.findByIdAndUpdate(req.body.userBId, {
-             $push: {
-                 chatRoom: chat
-             }
-         }).then(user => console.log(user)).catch(err => console.log(err));
+        User.findByIdAndUpdate(req.body.userBId, { $push: { chatRoom: chat }})
+            .then(user => console.log(user)).catch(err => console.log(err));
 
-         // console.log(req.body.ownerId);
-         // User.findById({_id: Chat.ownerId}).then((user) => {
-         //         console.log(user.firstname);
+        return res.status(201).send(chat);
 
-         // });
+    }).catch(err => res.status(400).send({ error: err }));
+});
 
+router.post('/send', (req, res) => {
 
-
-         return res.status(201).send(chat);
-     }).catch(err => {
-         return res.status(400).send({
-             error: err
-         });
-     });
- });
-
- router.post('/send', (req, res) => {
-     
-    Chat.findByIdAndUpdate(req.body.chatId, {
-        $push: {
-            messages: req.body.message
-        }
-    }).then(chat1 => {
+    Chat.findByIdAndUpdate(req.body.chatId, { $push: { messages: req.body.message }})
+        .then(chat1 => {
         // console.log(chat1._id);
         // console.log(chat1.userAId);
-        User.findByIdAndUpdate(chat1.userAId, {
-            $pull: {
-                "chatRoom": {
-                    "_id": chat1._id
-                }
-            }
-        }).then(user => console.log());
+        User.findByIdAndUpdate(chat1.userAId, { $pull: { "chatRoom": { "_id": chat1._id }}})
+            .then(user => console.log());
 
-        User.findByIdAndUpdate(chat1.userBId, {
-            $pull: {
-                "chatRoom": {
-                    "_id": chat1._id
-                }
-            }
-        }).then(user => console.log());
+        User.findByIdAndUpdate(chat1.userBId, { $pull: { "chatRoom": { "_id": chat1._id }}})
+            .then(user => console.log());
 
-
-        Chat.findById(chat1.id).then(chat => {
+        Chat.findById(chat1.id)
+            .then(chat => {
             // console.log(chat);
-             User.findByIdAndUpdate(chat.userAId, {
-                $push: {
-                    chatRoom: chat
-                }
-                 }
-             ).then(user => console.log());
+                User.findByIdAndUpdate(chat.userAId, { $push: { chatRoom: chat }})
+                    .then(user => console.log());
              
-             User.findByIdAndUpdate(chat.userBId, {
-                $push: {
-                    chatRoom: chat
-                }
-                 }
-             ).then(user => console.log());
-            //  .then(user => {
-            //      console.log(chat);
-            //       User.findById(chat.userAId).then(usa => {
-            //         User.findByIdAndUpdate(chat.userAId, {
-            //             $push: {
-            //                 chatRoom: chat
-            //             }
-            //         });
-            //       })
-                
-            //  });
-
-            //  User.findByIdAndUpdate(chat.userBId, {
-            //      $pull: {
-            //          "chatRoom": {
-            //              "_id": chat._id
-            //          }
-            //      }
-            //  }).then(user => {
-            //       
-            // User.findByIdAndUpdate(chat.userBId, {
-            //           $push: {
-            //               chatRoom: chat
-            //           }
-            //       });
-             }).then(user => console.log());
+                User.findByIdAndUpdate(chat.userBId, { $push: { chatRoom: chat }})
+                    .then(user => console.log());
+             })
+             .then(user => console.log());
 
         }).then(user => res.send(user));
-       
-
-
-    });
+});
     
     
     

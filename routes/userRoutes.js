@@ -12,7 +12,7 @@ router.post('/new', (req, res) => {
 
 router.get('/:id/chats', (req, res) => {
   User.findById({ _id: req.params.id })
-    .then(user => res.status(201).send(user.chatroom))
+    .then(user => res.status(201).send(user.chatRoom))
     .catch(err => res.status(401).send({ error: err }))
 })
 
