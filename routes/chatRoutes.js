@@ -4,8 +4,15 @@
  var router = express.Router();
  const User = require('../models/User');
 
- router.post('/new', (req, res) => {
+//get all messages of a chat
+router.get('/:id/all', (req, res) => {
+    Chat.findById({ _id: req.params.id })
+        .then(chat => res.status(201).send(chat.messages))
+        .catch(err => res.status(401).send({ error: err }))
+})
 
+ router.post('/new', (req, res) => {
+    console.log(req.body)
      Chat.create(req.body).then((chat) => {
          User.findByIdAndUpdate(req.body.userAId, {
              $push: {

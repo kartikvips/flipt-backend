@@ -7,14 +7,17 @@ require('./models/User');
 require('./services/passport');
 const booksRouter = require('./routes/bookRoutes');
 const chatRouter = require('./routes/chatRoutes');
+const userRouter = require('./routes/userRoutes');
 const bodyParser = require('body-parser');
-
 
 
 mongoose.connect(keys.mongoURI);
 
 const app = express();
 app.use(bodyParser.json());
+
+var cors = require("cors");
+app.use(cors());
 
 app.use(
     cookieSession({
@@ -27,12 +30,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/users', userRouter);
 app.use('/books', booksRouter);
 app.use('/message', chatRouter);
 require('./routes/authRoutes')(app);
-
-
-
 
 
 const PORT = process.env.PORT || 5000;
