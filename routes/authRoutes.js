@@ -1,5 +1,5 @@
 const passport = require('passport');
-
+const User = require('../models/User');
 
 module.exports = (app) => {
     app.get('/auth/google', passport.authenticate('google', {
@@ -41,9 +41,11 @@ module.exports = (app) => {
         res.send(req.user);
     });
 
-    app.get('/api/current_user', (req, res) => {
-        console.log(req);
-        res.send(req);
+    app.get('/api/current_user/:id', (req, res) => {
+        console.log("got hererrrrrrrr");
+        User.findById({ _id: req.params.id})
+            .then(user => res.send(user))
+        // res.send(req);
     });
 
 };

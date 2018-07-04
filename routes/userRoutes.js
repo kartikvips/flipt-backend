@@ -15,8 +15,9 @@ router.get('/:id/chats', (req, res) => {
   console.log("the req id is ", req.params.id)
   User.findOne({ _id: req.params.id })
     .then(user => {
-      console.log("the user is", user)
-      return res.status(200).json(user)
+      // console.log("the user is", JSON.stringify(user))
+      // debugger
+      return res.status(200).send(user);
     })
     .catch(err => res.status(401).send({ error: err }))
 })
