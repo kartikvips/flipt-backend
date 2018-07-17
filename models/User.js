@@ -1,6 +1,21 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+
+// create geolocation Schema
+// const geoSchema = new Schema({
+//     type:{
+//         default: "Point",
+//         type: String
+//     },
+//     coordinates: {
+//         type: [Number],
+//         index: "2dsphere "
+//     }
+// });
+
+
+
 const userSchema = new Schema({
     profileId: String,
     name: String,
@@ -8,11 +23,11 @@ const userSchema = new Schema({
     lastname: String,
     avatar: String,
     ownedBook: {
-        type: Array, 
+        type: Array,
         "default": []
     },
     borrowedBook: {
-        type: Array, 
+        type: Array,
         "default": []
     },
     lentBook: {
@@ -26,8 +41,7 @@ const userSchema = new Schema({
     coordinates: {
         type: [Number]
     }
-    }
-);
+});
 
 const User  = mongoose.model('users', userSchema);
 
