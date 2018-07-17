@@ -7,6 +7,7 @@ require('./models/User');
 require('./services/passport');
 const booksRouter = require('./routes/bookRoutes');
 const chatRouter = require('./routes/chatRoutes');
+const authRouter = require('./routes/authRoutes');
 const bodyParser = require('body-parser');
 
 

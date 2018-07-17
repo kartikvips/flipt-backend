@@ -1,5 +1,5 @@
 const passport = require('passport');
-
+const User = require('../models/User');
 
 module.exports = (app) => {
     app.get('/auth/google', passport.authenticate('google', {
@@ -13,8 +13,9 @@ module.exports = (app) => {
         passport.authenticate('google', {
             failureRedirect: '/auth/google'
         }),
-        (req, res) =>
-        res.redirect('OAuthLogin://login?user=' + JSON.stringify(req.user))
+        (req, res) =>{
+        return res.redirect('OAuthLogin://login?user=' + JSON.stringify(req.user));
+        }
     );
 
     // app.get(
@@ -41,9 +42,15 @@ module.exports = (app) => {
         res.send(req.user);
     });
 
-    app.get('/api/current_user', (req, res) => {
-        console.log(req);
-        res.send(req.user);
+    app.get('/api/current_user/:id', (req, res) => {
+        // console.log('made it to user fetch backend', req.data);
+        // req.params.id
+        // the front end is sending the wrong id for some reason
+        // this is the right id
+        // _id: '5b398f9ea055bf441feb4626'
+        User.findOne({ _id: req.params._id }).then(user => {
+          console.log('the user is', user);
+          res.send(user);
+        });
     });
-
 };

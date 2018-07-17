@@ -34,11 +34,8 @@ const bookSchema = new Schema({
     ownerId:{
         type: String
     },
-    latitude:{
-        type: String
-    },
-    longitude:{
-        type: String
+    coordinates: {
+        type: [Number]
     }
 });
 

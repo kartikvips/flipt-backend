@@ -23,13 +23,11 @@ const userSchema = new Schema({
         type: Array,
         "default": []
     },
-    latitude: {
-        type: String
-    },
-    longitude: {
-        type: String
+    coordinates: {
+        type: [Number]
     }
-});
+    }
+);
 
 const User  = mongoose.model('users', userSchema);
 

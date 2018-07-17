@@ -5,7 +5,6 @@ const User = require('../models/User');
 describe('creating record', ()=>{
 
     it('saves a user', () => {
-        console.log("here");
         const me = new User({
             profileId: "thisisaprofileidtoo",
             name: "Vipul P",
