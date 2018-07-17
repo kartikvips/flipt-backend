@@ -48,7 +48,8 @@ module.exports = (app) => {
         // the front end is sending the wrong id for some reason
         // this is the right id
         // _id: '5b398f9ea055bf441feb4626'
-        User.findOne({ _id: req.params._id }).then(user => {
+        // console.log('the user params are', req.params);
+        User.findOne({ _id: req.params.id }).then(user => {
           console.log('the user is', user);
           res.send(user);
         });
