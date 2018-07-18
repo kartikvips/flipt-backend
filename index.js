@@ -7,6 +7,7 @@ require('./models/User');
 require('./services/passport');
 const booksRouter = require('./routes/bookRoutes');
 const chatRouter = require('./routes/chatRoutes');
+const authRouter = require('./routes/authRoutes');
 const bodyParser = require('body-parser');
 
 
@@ -36,4 +37,5 @@ require('./routes/authRoutes')(app);
 
 
 const PORT = process.env.PORT || 5000;
+console.log(PORT);
 app.listen(PORT);

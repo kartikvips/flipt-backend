@@ -6,9 +6,8 @@ var router = express.Router();
 const User = require('../models/User');
 
 router.post('/new', (req,res) => {
-    console.log(req.body.ownerId);
+    // console.log('here is the book',res.body);
     Book.create(req.body).then((book) => {
-        console.log(req.body);
         User.findByIdAndUpdate(req.body.ownerId,
         {
             $push : {
@@ -16,14 +15,14 @@ router.post('/new', (req,res) => {
             },
             coordinates: req.body.coordinates
         }
-    ).then(user => console.log(user)).catch(err => console.log(err));
+    ).then(user => user).catch(err => console.log(err));
 
     // console.log(req.body.ownerId);
     // User.findById({_id: book.ownerId}).then((user) => {
     //         console.log(user.firstname);
-    
+
     // });
-   
+
         return res.status(201).send(book);
     }).catch(err => {
         return res.status(400).send({error:err});
@@ -97,14 +96,15 @@ router.get('/:id', (req,res) => {
 });
 
 router.get('/google/:isbn', (req, res) => {
-    console.log('getting here');
     googleBooks.search(req.params.isbn, (error, book) => {
-        console.log(book);
-        if(book === []){
+        // console.log(book);
+        if(book === [] || book === {}){
             res.send(false);
         }
         else if (!error) {
-
+            if (!book[0].thumbnail){
+                book[0].thumbnail = 'http://res.cloudinary.com/dbm56y2y/image/upload/v1530484547/blank_cover.jpg';
+            }
             res.status(201).send({
                 title: book[0].title,
                 author: book[0].authors,
@@ -112,7 +112,8 @@ router.get('/google/:isbn', (req, res) => {
                 year: book[0].publishedDate.slice(0, 4),
                 description: book[0].description,
                 imageUrl: (book[0].thumbnail.slice(0, 4) + 's' + book[0].thumbnail.slice(4)),
-                category: book[0].categories
+                category: book[0].categories,
+                ownerId: null
             });
         } else {
             res.status(400).send(error);
@@ -142,7 +143,7 @@ router.post(
         let booksAround = [];
         let lat = parseFloat(req.body.latitude);
         let long = parseFloat(req.body.longitude);
-      
+
         Book.find({
             title: {
                 "$regex": req.body.title,
@@ -151,11 +152,11 @@ router.post(
         })
             .then(books => {
                 books.forEach(book => {
-                 
+
                     booksAround = booksAround.concat(book);
                 });
                 let newBooks = {};
-               
+
                 booksAround.forEach(eachB => {
                     if (eachB.coordinates) {
                         let point = eachB.coordinates;
@@ -179,12 +180,12 @@ router.post(
             .catch(err =>
                 res.status(404).send("ERRRROOOORR")
             );
-        // Book.find({       
+        // Book.find({
         //         title: {
         //             "$regex": req.body.title,
         //             "$options": "i"
         //         }
-            
+
         // })
         //     .then(books => console.log(books));
     }
@@ -216,15 +217,17 @@ router.patch('/:id', (req,res) => {
 });
 
 router.delete('/:id', (req,res) => {
+   console.log('this is the id pass from the front end', req.params.id);
     Book.findByIdAndRemove({_id:req.params.id}).then(book => {
         // console.log(book.ownerId);
         // console.log(book);
         // console.log(User.findById(book.ownerId));
+        console.log('made it to the book removal', book);
         User.findByIdAndUpdate(book.ownerId, {
             $pull: {
                 ownedBook: book
             }
-        }).then(user => console.log(user)).catch(err => console.log(err));
+        }).then(user => user).catch(err => console.log(err));
 
         return res.status(201).send(book);
     }).catch(err => {

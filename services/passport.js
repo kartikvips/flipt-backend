@@ -71,7 +71,7 @@ passport.use(new FacebookStrategy({
         proxy: true
     },
     (accessToken, refreshToken, profile, done) => {
-        console.log(profile);
+   
         User.findOne({
                 profileId: profile.id
             })

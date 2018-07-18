@@ -23,11 +23,11 @@ const userSchema = new Schema({
     lastname: String,
     avatar: String,
     ownedBook: {
-        type: Array, 
+        type: Array,
         "default": []
     },
     borrowedBook: {
-        type: Array, 
+        type: Array,
         "default": []
     },
     lentBook: {
