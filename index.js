@@ -6,9 +6,13 @@ const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
 const booksRouter = require('./routes/bookRoutes');
-const chatRouter = require('./routes/chatRoutes');
+const chatRouter = require('./routes/chatRoutes2');
 const authRouter = require('./routes/authRoutes');
 const bodyParser = require('body-parser');
+
+
+
+const userRouter =  require('./routes/userRoutes');
 
 
 
@@ -27,6 +31,8 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use('/users', userRouter);
 
 app.use('/books', booksRouter);
 app.use('/message', chatRouter);
