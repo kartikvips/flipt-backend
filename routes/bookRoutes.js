@@ -217,10 +217,12 @@ router.patch('/:id', (req,res) => {
 });
 
 router.delete('/:id', (req,res) => {
+   console.log('this is the id pass from the front end', req.params.id);
     Book.findByIdAndRemove({_id:req.params.id}).then(book => {
         // console.log(book.ownerId);
         // console.log(book);
         // console.log(User.findById(book.ownerId));
+        console.log('made it to the book removal', book);
         User.findByIdAndUpdate(book.ownerId, {
             $pull: {
                 ownedBook: book
